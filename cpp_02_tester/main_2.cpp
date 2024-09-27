@@ -19,3 +19,13 @@ int main() {
 
     return 0;
 }
+/*
+ Verificar la correcta conversión entre enteros, floats y valores de punto fijo.
+
+    Prueba de Constructor con Entero:
+        Crea un objeto pasando un entero y verifica que el valor se guarda correctamente.
+    Prueba de Constructor con Float:
+        Crea un objeto pasando un float y verifica la conversión a punto fijo.
+    Prueba de Métodos toFloat y toInt:
+        Llama a toFloat y toInt para verificar que los valores se convierten correctamente.
+*/

@@ -30,3 +30,16 @@ g++ -Wall -Wextra -Werror -std=c++98 -c Fixed.cpp -o Fixed.o
 g++ -Wall -Wextra -Werror -std=c++98 -c main.cpp -o main.o
 g++ main.o Fixed.o -o program
 */
+
+/*
+Probar la sobrecarga de operadores y funciones min y max.
+
+    Prueba de Operadores de Comparación:
+        Verifica que todos los operadores (>, <, >=, <=, ==, !=) funcionan correctamente.
+    Prueba de Operadores Aritméticos:
+        Realiza operaciones (+, -, *, /) y verifica los resultados.
+    Prueba de Incremento y Decremento:
+        Prueba las versiones de pre-incremento, post-incremento, pre-decremento, y post-decremento.
+    Prueba de Funciones min y max:
+        Llama a min y max con diferentes objetos y verifica los resultados.
+*/
