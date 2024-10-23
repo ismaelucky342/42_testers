@@ -130,20 +130,6 @@ norme_check () {
 
 clear
 #
-echo "\033[34m               -====-__-======-__-=========-_____-===========-__"
-echo "             _(                                                 )_   "
-echo "          O0(_                 GNL STATION TEST                  _)  "
-echo "         O    (_                                               _)    "
-echo "      o0        '=-____-===-_____-========-_________-=======-='      "
-echo "    .o                                _________                      "
-echo "  '. ______          ______________  |    DO   |      _____          "
-echo " _()_||__|| ________ |            |  |_________|   __||___||__       "
-echo "( GNL 2022| |  YOU | |     CAN    | __Y______00_| |_   IT!   _|      "
-echo "/-OO----OO''='OO--OO'='OO--------OO'='OO-------OO'='OO-------OO'=P   "
-echo "#####################################################################"
-echo "Last update 13/05/22 15:42                        Art by Donovan Bake"
-echo "\033[34m_______________________________________________________________________\033[0m"
-echo "\033[34mBUFFER SIZE = 0 \033[0m"
 # ---------- TEST 1 ----------
 ${VALG} ./${NAME0} ${path_test}${test_1} 1> ${po0}${out_1} 2> ${po0}leaks_log1
 compare ${po0} ${test_5} 1
@@ -206,11 +192,6 @@ echo
 echo "\033[34m_______________________________________________________________________\033[0m"
 norme_check
 echo "\033[34mTest 1  : brouette.txt"
-echo "Test 2  : otarie.txt         \|/          (__)              "
-echo "Test 3  : oneline.txt             '(------(oo)       moooh !"
-echo "Test 4  : u.txt                     ||    (__)              "
-echo "Test 5  : empty.txt                 ||w--||    \|/          "
-echo "Test 6  : newline.txt           \|/                         "
 echo "Test 7  : onechar.txt"
 echo "Test 8  : twochar.txt"
 echo "Test 9  : linew.txt"
