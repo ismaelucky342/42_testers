@@ -1,106 +1,134 @@
 import subprocess
 import os
-import sys
+import glob
+import time  # Importamos el módulo time
+
+# Colores ANSI para salida de terminal
+RESET = "\033[0m"
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+RED = "\033[31m"
+BLUE = "\033[34m"
+
+# Configuración del programa
+EXECUTABLE = "./rush-01"
+TEST_CASES = [
+    ("4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2", "1 2 3 4\n2 3 4 1\n3 4 1 2\n4 1 2 3\n"),
+    ("1 2 2 2 4 3 2 1 1 2 2 2 4 3 2 1", "Error\n"),
+    ("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1", "Error\n"),
+    ("4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4", "1 2 3 4\n2 3 4 1\n3 4 1 2\n4 1 2 3\n"),
+    ("2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2", "1 3 4 2\n2 4 3 1\n3 1 2 4\n4 2 1 3\n"),
+    ("4 1 4 1 1 4 1 4 4 1 4 1 1 4 1 4", "1 4 3 2\n2 3 4 1\n3 2 1 4\n4 1 2 3\n"),
+    ("1 1 2 2 2 2 1 1 1 2 2 2 2 1 1 2", "1 4 2 3\n3 2 4 1\n4 3 1 2\n2 1 3 4\n"),
+    ("0 5 2 3 1 2 4 6 1 2 3 4 1 2 3 4", "Error\n"),
+    ("4 3 2 1 1 2 2 2 4 3 2 1", "Error\n"),
+    ("a b c d e f g h i j k l m n o p", "Error\n"),
+    ("3 2 2 3 2 2 2 2 3 2 2 3 2 2 2 2", "2 3 4 1\n1 4 3 2\n4 1 2 3\n3 2 1 4\n"),
+    ("3 3 2 1 1 4 2 2 3 2 2 1 1 4 2 3", "1 3 2 4\n4 2 3 1\n2 4 1 3\n3 1 4 2\n"),
+    ("4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2", "1 2 3 4\n2 3 4 1\n3 4 1 2\n4 1 2 3\n"),
+]
 
 def compile_program():
-    """Compila todos los archivos .c en el directorio y genera el ejecutable rush-01."""
-    print("Compiling the program...")
+    print("Compilando el programa...")
+    source_files = glob.glob("*.c")  # Encuentra todos los archivos .c en el directorio actual
+    if not source_files:
+        print("No se encontraron archivos .c para compilar.")
+        return False
+    result = subprocess.run(
+        ["gcc", "-Wall", "-Wextra", "-Werror", "-o", EXECUTABLE] + source_files,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+    if result.returncode != 0:
+        print("Error al compilar:")
+        print(result.stderr.decode())
+        return False
+    print("Compilación exitosa.")
+    return True
 
-    # Comando para compilar todos los archivos .c y generar el ejecutable rush-01
-    compile_command = "gcc -Wall -Wextra -Werror -o rush-01 *.c"
-    
-    try:
-        result = subprocess.run(compile_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        if result.returncode != 0:
-            print("Error during compilation:")
-            print(result.stderr)
-            sys.exit(1)  # Terminar si hay error en la compilación
-        else:
-            print("Compilation successful!")
-    except Exception as e:
-        print(f"Error compiling the program: {e}")
-        sys.exit(1)
+def compile_with_sanitize():
+    print("Compilando con sanitizers...")
+    source_files = glob.glob("*.c")  # Encuentra todos los archivos .c en el directorio actual
+    if not source_files:
+        print("No se encontraron archivos .c para compilar.")
+        return False
+    result = subprocess.run(
+        ["gcc", "-Wall", "-Wextra", "-Werror", "-fsanitize=address", "-o", EXECUTABLE] + source_files,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+    if result.returncode != 0:
+        print("Error al compilar con sanitize:")
+        print(result.stderr.decode())
+        return False
+    print("Compilación exitosa con sanitizers.")
+    return True
 
-def run_program_with_input(input_data):
-    """Ejecuta el programa rush-01 con una entrada específica y devuelve la salida."""
-    try:
-        result = subprocess.run(
-            ['./rush-01', input_data],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        return result.stdout, result.stderr, result.returncode
-    except Exception as e:
-        print(f"Error al ejecutar el programa: {e}")
-        return "", str(e), -1
-
-
-def compare_output(actual_output, expected_output):
-    """Compara la salida real del programa con la salida esperada."""
-    if actual_output.strip() == expected_output.strip():
-        print("Test Passed!")
-    else:
-        print("Test Failed!")
-        print("Expected Output:")
-        print(expected_output)
-        print("Actual Output:")
-        print(actual_output)
-
-
-def check_memory_leaks(input_data):
-    """Verifica si el programa tiene fugas de memoria usando Valgrind."""
-    valgrind_command = [
-        'valgrind', '--leak-check=full', '--show-leak-kinds=all', '--track-origins=yes', 
-        './rush-01', input_data
-    ]
-    
-    try:
-        result = subprocess.run(
-            valgrind_command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        if 'definitely lost' in result.stderr or 'indirectly lost' in result.stderr:
-            print("Memory leaks detected:")
-            print(result.stderr)
-        else:
-            print("No memory leaks detected!")
-    except Exception as e:
-        print(f"Error al ejecutar Valgrind: {e}")
-
-
+# Función para ejecutar pruebas
 def run_tests():
-    # Definir casos de prueba: entradas y salidas esperadas
-    test_cases = [
-        {
-            "input": "4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2",
-            "expected_output": "1 2 3 4\n2 3 4 1\n3 4 1 2\n4 1 2 3\n"
-        },
-        {
-            "input": "1 2 3 4 4 3 2 1 1 2 2 2 4 3 2 1",
-            "expected_output": "Error\n"
-        }
-    ]
+    print("Ejecutando pruebas...")
+    for idx, (input_data, expected_output) in enumerate(TEST_CASES):
+        try:
+            # Ejecutar el programa
+            process = subprocess.run(
+                [EXECUTABLE, input_data],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            output = process.stdout
+            if output == expected_output:
+                print(f"Prueba {idx + 1}: ✅ Pasó")
+            else:
+                print(f"Prueba {idx + 1}: ❌ Falló")
+            
+            # Mostrar resultados esperados y obtenidos
+            print(f"Entrada: {input_data}")
+            print(f"Esperado:\n{expected_output}")
+            print(f"Obtenido:\n{output}")
+        except Exception as e:
+            print(f"Prueba {idx + 1}: ❌ Error de ejecución - {e}")
 
-    for test in test_cases:
-        print(f"Running test with input: {test['input']}")
-        
-        # Ejecutar el programa y obtener la salida
-        actual_output, error_output, return_code = run_program_with_input(test["input"])
-        
-        # Comparar la salida
-        compare_output(actual_output, test["expected_output"])
+# Comprobación de fugas con valgrind
+def check_memory_leaks():
+    print("Comprobando fugas de memoria con valgrind...")
+    for idx, (input_data, _) in enumerate(TEST_CASES):
+        try:
+            valgrind_result = subprocess.run(
+                ["valgrind", "--leak-check=full", "--error-exitcode=1", EXECUTABLE, input_data],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            if valgrind_result.returncode == 0:
+                print(f"Prueba {idx + 1} (valgrind): ✅ Sin fugas")
+            else:
+                print(f"Prueba {idx + 1} (valgrind): ❌ Fugas detectadas")
+                print(valgrind_result.stderr)
+        except Exception as e:
+            print(f"Prueba {idx + 1} (valgrind): ❌ Error de ejecución - {e}")
 
-        # Verificar los leaks de memoria
-        check_memory_leaks(test["input"])
-
-        print("-" * 50)
-
+# Main
 if __name__ == "__main__":
-    # Compilar el programa antes de ejecutar las pruebas
-    compile_program()
-    
-    # Ejecutar las pruebas
-    run_tests()
+    # Mostrar mensaje 'rush 01' durante 3 segundos
+    print(GREEN + BOLD + """
+	
+██████╗ ██╗   ██╗███████╗██╗  ██╗         ██████╗  ██╗    ████████╗███████╗███████╗████████╗███████╗██████╗ 
+██╔══██╗██║   ██║██╔════╝██║  ██║        ██╔═████╗███║    ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+██████╔╝██║   ██║███████╗███████║        ██║██╔██║╚██║       ██║   █████╗  ███████╗   ██║   █████╗  ██████╔╝
+██╔══██╗██║   ██║╚════██║██╔══██║        ████╔╝██║ ██║       ██║   ██╔══╝  ╚════██║   ██║   ██╔══╝  ██╔══██╗
+██║  ██║╚██████╔╝███████║██║  ██║███████╗╚██████╔╝ ██║       ██║   ███████╗███████║   ██║   ███████╗██║  ██║
+╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═╝       ╚═╝   ╚══════╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+                                                                                                            
+                                         2024/11/12 - ismherna@student.42.fr - 42 Madrid - Ismael Hernández                                                    
+
+	""" + RESET)
+    time.sleep(1)  # Esperar 3 segundos
+
+    mode = input(GREEN + BOLD +"Compilation Options:\n \n(1: standard, 2: Sanitize, 3: Valgrind):\n \n"+ RESET).strip()
+    if mode == "1":
+        if compile_program():
+            run_tests()
+    elif mode == "2":
+        if compile_with_sanitize():
+            run_tests()
+    elif mode == "3":
+        if compile_program():
+            run_tests()
+            check_memory_leaks()
+    else:
+        print("Opción no válida.")
