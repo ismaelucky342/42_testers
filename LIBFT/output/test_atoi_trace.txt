@@ -1,0 +1,97 @@
+test[1]: "42"
+atoi:    42
+ft_atoi: 42
+[32m✅ OK
+
+[0mtest[2]: "-42"
+atoi:    -42
+ft_atoi: -42
+[32m✅ OK
+
+[0mtest[3]: "0"
+atoi:    0
+ft_atoi: 0
+[32m✅ OK
+
+[0mtest[4]: "2147483647"
+atoi:    2147483647
+ft_atoi: 2147483647
+[32m✅ OK
+
+[0mtest[5]: "-2147483648"
+atoi:    -2147483648
+ft_atoi: -2147483648
+[32m✅ OK
+
+[0mtest[6]: "   123"
+atoi:    123
+ft_atoi: 123
+[32m✅ OK
+
+[0mtest[7]: "	
+  -456"
+atoi:    -456
+ft_atoi: -456
+[32m✅ OK
+
+[0mtest[8]: "+789"
+atoi:    789
+ft_atoi: 789
+[32m✅ OK
+
+[0mtest[9]: "--12"
+atoi:    0
+ft_atoi: 0
+[32m✅ OK
+
+[0mtest[10]: "++34"
+atoi:    0
+ft_atoi: 0
+[32m✅ OK
+
+[0mtest[11]: "  00056"
+atoi:    56
+ft_atoi: 56
+[32m✅ OK
+
+[0mtest[12]: "  +00042"
+atoi:    42
+ft_atoi: 42
+[32m✅ OK
+
+[0mtest[13]: "  -00042"
+atoi:    -42
+ft_atoi: -42
+[32m✅ OK
+
+[0mtest[14]: "abcd"
+atoi:    0
+ft_atoi: 0
+[32m✅ OK
+
+[0mtest[15]: "123abc"
+atoi:    123
+ft_atoi: 123
+[32m✅ OK
+
+[0mtest[16]: "  -42abc"
+atoi:    -42
+ft_atoi: -42
+[32m✅ OK
+
+[0mtest[17]: "9223372036854775807"
+atoi:    -1
+ft_atoi: -1
+[32m✅ OK
+
+[0mtest[18]: "-9223372036854775808"
+atoi:    0
+ft_atoi: 0
+[32m✅ OK
+
+[0mtest[19]: " *-344535"
+atoi:    0
+ft_atoi: 0
+[32m✅ OK
+
+[0m

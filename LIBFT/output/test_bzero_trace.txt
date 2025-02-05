@@ -1,0 +1,52 @@
+test[1]: ""
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[2]: "a"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[3]: "hello"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[4]: "12345"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[5]: "!@#$%^&*()"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[6]: "hello world"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[7]: "hello	world
+"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[8]: ""
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[9]: "hello"
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0mtest[10]: ""
+calloc:    ""
+ft_calloc: ""
+[32m✅ OK
+
+[0m
