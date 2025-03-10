@@ -10,14 +10,27 @@ BLUE = "\033[34m"
 
 # Configuración del programa
 EXECUTABLE = "./rush-02"  # Cambiar el nombre al ejecutable de Rush02
+
 TEST_CASES = [
-    ("20", "veinte\n"),
-    ("5", "cinco\n"),
-    ("100", "cien\n"),
-    ("42", "cuarenta y dos\n"),
-    ("999", "novecientos noventa y nueve\n"),
-    ("1001", "Error\n"),  # Asegurando que valores fuera de rango den error
-    ("0", "cero\n"),
+    ("20", "twenty"),
+    ("5", "five"),
+    ("100", "one hundred"),
+    ("42", "forty two"),
+    ("999", "nine hundred ninety nine"),
+    ("1001", "one thousand one"), 
+    ("0", "zero"),
+    ("15", "fifteen"),
+    ("30", "thirty"),
+    ("75", "seventy five"),
+    ("200", "two hundred"),
+    ("350", "three hundred fifty"),
+    ("1234", "one thousand two hundred thirty four"),
+    ("5000", "five thousand"),
+    ("10000", "ten thousand"),
+    ("100000", "one hundred thousand"),
+    ("1000000", "one million"),
+    ("1000000000", "one billion"),
+    ("9999999", "nine million nine hundred ninety nine thousand nine hundred ninety nine"),
 ]
 
 # Función para ejecutar pruebas
@@ -32,16 +45,16 @@ def run_tests():
             )
             output = process.stdout
             if output == expected_output:
-                print(f"Prueba {idx + 1}: ✅ Pasó")
+                print(f"\nPrueba {idx + 1}: ✅ OK")
             else:
-                print(f"Prueba {idx + 1}: ❌ Falló")
+                print(f"\nPrueba {idx + 1}: ❌ KO")
             
             # Mostrar resultados esperados y obtenidos
             print(f"Entrada: {input_data}")
             print(f"Esperado:\n{expected_output}")
             print(f"Obtenido:\n{output}")
         except Exception as e:
-            print(f"Prueba {idx + 1}: ❌ Error de ejecución - {e}")
+            print(f"\nPrueba {idx + 1}: ❌ Error de ejecución - {e}")
 
 # Comprobación de fugas con valgrind
 def check_memory_leaks():
